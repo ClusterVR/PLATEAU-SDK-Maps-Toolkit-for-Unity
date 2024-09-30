@@ -13,7 +13,7 @@ namespace PlateauToolkit.Maps {
             get
             {
                 // check if there is already a Height client in the scene
-                PlateauMapsHeightClient instance = GameObject.FindFirstObjectByType<PlateauMapsHeightClient>();
+                PlateauMapsHeightClient instance = GameObject.FindObjectOfType<PlateauMapsHeightClient>();
                 if (instance != null)
                 {
                     s_Instance = instance;
