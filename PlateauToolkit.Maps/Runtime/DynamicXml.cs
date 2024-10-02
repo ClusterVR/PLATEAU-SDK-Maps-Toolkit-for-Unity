@@ -52,17 +52,21 @@ namespace PlateauToolkit.Maps
         {
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(xmlFile.text);
-            Dictionary<string, XmlNode> dictionary = new Dictionary<string, XmlNode>();
+            Dictionary<string, XmlNode> xmlNodes = new Dictionary<string, XmlNode>();
             var root = xmlDocument.DocumentElement;
-            TraverseNodes(root, ref dictionary);
-            return dictionary;
+            TraverseNodes(root, ref xmlNodes);
+            return xmlNodes;
         }
 
         static void TraverseNodes(XmlNode node, ref Dictionary<string, XmlNode> dictionary)
         {
             if (node.Attributes != null && node.Attributes["id"] != null)
             {
-                dictionary.Add(node.Attributes["id"].Value, node);
+                var id = node.Attributes["id"].Value;
+                if (!dictionary.TryAdd(id, node))
+                {
+                    Debug.LogWarning($"Duplicate ifc node id: {id}");
+                }
             }
             foreach (XmlNode childNode in node.ChildNodes)
             {
